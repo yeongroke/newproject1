@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="newproject1.DAO.MemberDao">
+  	
+  	<resultMap type="Member" id="membermap">
+  		<id		column="meno"		property="no"/>
+  		<result	column="name"		property="name"/>
+  		<result column="age"		property="age"/>
+  		<result column="email"		property="email"/>
+  		<result column="pwd"		property="pwd"/>
+  		<result column="bas_addr"	property="bas_addr"/>
+  		<result column="det_addr"	property="det_addr"/>
+  		<result column="rgdt"		property="rgdt"/>
+  		<result column="stat"		property="stat"/>
+  	</resultMap>
+  	
+  	<insert id="insert" parameterType="Member"
+  		useGeneratedKeys="true" keyColumn="qno" keyProperty="no">
+  		
+  		insert into member(name,age,email,phone,pwd,bas_addr,det_addr,rgdt)
+  		values(#{name},#{age},#{email},#{phone},password(#{pwd}),#{bas_addr},#{det_addr},now());
+  	</insert>
+  	
+  </mapper>

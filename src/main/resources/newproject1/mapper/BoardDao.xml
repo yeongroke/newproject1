@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="newproject1.DAO.BoardDao">
+		<resultMap type="Board" id="boardmap">
+			<id 	column="bono"		property="no"/>
+			<result column="meno"		property="meno"/>
+			<result column="title"		property="title"/>
+			<result column="note"		property="note"/>
+			<result column="likec"		property="likec"/>
+			<result column="dlikec"		property="dlikec"/>
+			<result column="star"		property="star"/>
+			<result column="rgdt"		property="rgdt"/>
+			<result column="stat"		property="stat"/>
+		</resultMap>
+		
+		<select id="list" resultMap="boardmap" parameterType="Map">
+			select 
+				bono,
+				meno,
+				title,
+				note,
+				likec,
+				dlikec,
+				star,
+				rgdt,
+				stat 
+			from 
+				board;
+		</select>
+	</mapper>

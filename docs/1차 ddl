@@ -1,0 +1,64 @@
+create table member(
+	meno integer not null,
+	name varchar(30) not null,
+	age integer not null,
+	email varchar(50) not null,
+	phone varchar(50) not null,
+	pwd varchar(50) not null,
+	bas_addr varchar(50) not null,
+	det_addr varchar(50) not null,
+	rgdt date not null,
+	stat char(1) not null
+);
+
+create table board(
+	bono integer not null,
+	title varchar(50) not null,
+	note text not null,
+	meno integer not null,
+	rgdt date not null,
+	likec integer null,
+	dlikec integer null,
+	star integer null,
+	stat char(1) not null
+);
+
+create table boreple(
+	reno integer not null,
+	bono integer not null,
+	note text not null,
+	rgdt date not null,
+	stat char(1) not null
+);
+
+alter table member
+	add constraint pk_member primary key(meno);
+alter table board
+	add constraint pk_board primary key(bono);
+alter table boreple
+	add constraint pk_boreple primary key(reno);
+
+alter table member
+	modify column meno integer not null auto_increment; 
+alter table board
+	modify column bono integer not null auto_increment; 
+alter table boreple
+	modify column reno integer not null auto_increment; 
+
+alter table board
+	add constraint fk_member_to_board foreign key(meno) references member(meno);
+alter table boreple
+	add constraint fk_board_to_boreple foreign key(bono) references board(bono);
+
+alter table member
+	modify stat char(1) default 'N';
+alter table board
+	modify star integer default 0;
+alter table board
+	modify likec integer default 0;
+alter table board
+	modify dlikec integer default 0;
+alter table board
+	modify stat char(1) default 'N';
+alter table boreple
+	modify stat char(1) default 'N';
