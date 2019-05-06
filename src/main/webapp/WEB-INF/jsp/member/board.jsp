@@ -18,7 +18,7 @@
 <div class="container">
 	<table style = "width:500px; text-align:center; border-collapse:collapse;">
 			<thead style ="background-color:#606066">
-				<tr><td>d1</td><td>d2</td><td>d2</td><td>d2</td><td>d2</td><td>d2</td><td>d2</td><td>d2</td></tr>
+				<tr><td>번호</td><td>제목</td><td>일부내용</td><td>별점</td><td>좋아요</td><td>싫어요</td><td>작성자</td><td>등록일</td></tr>
 			</thead>
 			<tbody>
 		<c:forEach items="${boardlist}" var="bl" varStatus="i">

@@ -17,10 +17,28 @@
   	</resultMap>
   	
   	<insert id="insert" parameterType="Member"
-  		useGeneratedKeys="true" keyColumn="qno" keyProperty="no">
+  		useGeneratedKeys="true" keyColumn="meno" keyProperty="no">
   		
-  		insert into member(name,age,email,phone,pwd,bas_addr,det_addr,rgdt)
+  		insert into member(name,age,email,phone,pwd,bas_addr,det_addr,rgdt)    
   		values(#{name},#{age},#{email},#{phone},password(#{pwd}),#{bas_addr},#{det_addr},now());
   	</insert>
+  	
+  	<select id="findemacount" parameterType="String" resultType="java.lang.Integer">
+  		SELECT 
+  			count(*) 
+  		from 
+  			member 
+  		where 
+  			email = #{email};
+  	</select>
+  	
+  	<select id="logindo" parameterType="Map" resultType="Member">
+  		Select
+  			*
+  		from
+  			member
+  		where
+  			email = #{email} AND pwd = password(#{pwd});
+  	</select>
   	
   </mapper>
