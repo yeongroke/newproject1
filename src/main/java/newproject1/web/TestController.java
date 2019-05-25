@@ -2,6 +2,7 @@ package newproject1.web;
 
 import java.util.List;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,12 +42,12 @@ public class TestController {
   }
   
   @RequestMapping("board")
-  public void board(Model model) {
+  public void board(Model model,HttpServletRequest request) {
     
     List<Board> boardlist = boardService.list();
     
-    model.addAttribute("boardlist", boardlist);
-    
+    //model.addAttribute("boardlist", boardlist);
+    request.setAttribute("boardlist", boardlist); 
   }
   
   @RequestMapping("login")
