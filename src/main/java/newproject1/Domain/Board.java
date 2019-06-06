@@ -11,7 +11,14 @@ public class Board {
   private int star;
   private String rgdt;
   private String stat;
+  private Member member;
   
+  public Member getMember() {
+    return member;
+  }
+  public void setMember(Member member) {
+    this.member = member;
+  }
   public int getNo() {
     return no;
   }

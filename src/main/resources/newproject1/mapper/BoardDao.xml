@@ -13,6 +13,7 @@
 			<result column="star"		property="star"/>
 			<result column="rgdt"		property="rgdt"/>
 			<result column="stat"		property="stat"/>
+			<result column="mtname"		property="member.name"/>
 		</resultMap>
 		
 		<select id="list" resultMap="boardmap" parameterType="Map">
