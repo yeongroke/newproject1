@@ -12,25 +12,50 @@
 		<script src="/vendor/jquery/jquery.min.js"></script>
 		<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
-<label>이메일</label>
-<c:choose>
-	<c:when test="${sessionScope.loginuser == null}">
-		<input type="email" name="email" id="useremail"/>
-		<label>비밀번호</label>
-		<input type="password" name="pwd" id="userpwd"/>
-	</c:when>
-	<c:otherwise>
-		<h2>${sessionScope.loginuser.name}</h2>
-	</c:otherwise>
-</c:choose>
-
-<input type="button" onClick="login()" value="로그인"/>
-<input type="button" onClick="gohome()" value="뒤로가기"/>
-
+<div class="container">
+	<div class="row">
+		<div class="col-lg-7">
+			<div class="other_login" style="margin-bottom:20px;">
+				<a id="kakao-login-btn"></a>
+				<a href="http://developers.kakao.com/logout"></a>
+			</div>
+			<div class="my_login">
+				<label>이메일</label>
+				<c:choose>
+					<c:when test="${sessionScope.loginuser == null}">
+						<input type="email" name="email" id="useremail" value="${cookie.email.value}"/>
+						<label>비밀번호</label>
+						<input type="password" name="pwd" id="userpwd"/>
+					</c:when>
+					<c:otherwise>
+						<h2>${sessionScope.loginuser.name}</h2>
+					</c:otherwise>
+				</c:choose>
+				
+				<input type="button" onClick="login()" value="로그인"/>
+				<input type="button" onClick="gohome()" value="뒤로가기"/>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
+//사용할 앱의 JavaScript 키를 설정해 주세요.
+Kakao.init('99662c13961f0a69d40531562aaf40f6');
+// 카카오 로그인 버튼을 생성합니다.
+Kakao.Auth.createLoginButton({
+  container: '#kakao-login-btn',
+  success: function(authObj) {
+    alert(JSON.stringify(authObj));
+  },
+  fail: function(err) {
+     alert(JSON.stringify(err));
+  }
+});
+
 function gohome(){
     history.back();
 }
@@ -38,17 +63,15 @@ function gohome(){
 function login(){
 var emailva = $("#useremail").val();
 var pwdva = $("#userpwd").val();
-console.log(emailva);
-console.log(pwdva);
     $.ajax({
         type : "POST",
         data : {
             "email" : emailva,
             "pwd" : pwdva 
-        },url:"login.do",
+        }
+    	,url:"login.do",
         success : function(data){
-            console.log(data);
-            if(data == 1){
+            if(data == "1"){
                 console.log("성공");
                 swal({
                     text: "로그인성공.",

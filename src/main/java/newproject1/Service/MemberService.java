@@ -8,4 +8,7 @@ public interface MemberService {
   int findemacount(String email);
   
   Member logindo(String email, String pwd);
+  
+  //Member getbyno(int no);
+  Member kakaologin(String accessToken);
 }

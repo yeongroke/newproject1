@@ -16,7 +16,7 @@
 			<result column="mtname"		property="member.name"/>
 		</resultMap>
 		
-		<select id="list" resultMap="boardmap" parameterType="Map">
+		<select id="list"  parameterType="Map" resultMap="boardmap">
 			select 
 				bono,
 				meno,
@@ -28,6 +28,41 @@
 				rgdt,
 				stat 
 			from 
-				board;
+				board
+			where
+				meno = #{meno}
+			limit #{pageNo} ,#{pageSize};
 		</select>
+		
+		<select id="findbyno" parameterType="int" resultMap="boardmap">
+			select
+				bono,
+				meno,
+				title,
+				note,
+				likec,
+				dlikec,
+				star,
+				rgdt,
+				stat 
+			from 
+				board
+			where
+				bono = #{no};
+		</select>
+		
+		<select id="countbyno" parameterType="int" resultType="int">
+			select
+				count(*)
+			from 
+				board
+			where meno = #{meno};
+		</select>
+		
+		
+		<insert id="insert" parameterType="Board"
+  		useGeneratedKeys="true" keyColumn="bono" keyProperty="no">
+			insert into board (title , note , meno , rgdt)
+			values (#{title} , #{note} , #{meno} , now());
+		</insert>
 	</mapper>

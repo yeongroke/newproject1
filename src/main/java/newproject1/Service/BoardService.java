@@ -5,5 +5,8 @@ import newproject1.Domain.Board;
 
 public interface BoardService {
   void insert(Board board);
-  List<Board> list();
+  List<Board> list(int pageNO,int pageSize , int meno);
+  Board findbyno(int no);
+  
+  int countbyno(int meno);
 }

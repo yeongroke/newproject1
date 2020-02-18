@@ -9,4 +9,6 @@ public interface MemberDao {
   
   int findemacount(String email);
   Member logindo(HashMap<String, Object> findva);
+  
+  //Member getbyno(int no);
 }

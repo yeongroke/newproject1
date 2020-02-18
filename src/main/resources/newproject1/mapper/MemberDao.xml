@@ -16,29 +16,38 @@
   		<result column="stat"		property="stat"/>
   	</resultMap>
   	
-  	<insert id="insert" parameterType="Member"
+  	<insert id="insert" parameterType="member"
   		useGeneratedKeys="true" keyColumn="meno" keyProperty="no">
   		
-  		insert into member(name,age,email,phone,pwd,bas_addr,det_addr,rgdt)    
-  		values(#{name},#{age},#{email},#{phone},password(#{pwd}),#{bas_addr},#{det_addr},now());
+  		insert into mem(name,age,email,phone,pwd,bas_addr,det_addr,rgdt)    
+  		values(#{name},#{age},#{email},#{phone},sha(#{pwd}),#{bas_addr},#{det_addr},now());
   	</insert>
   	
-  	<select id="findemacount" parameterType="String" resultType="java.lang.Integer">
+  	<select id="findemacount" parameterType="String" resultType="int">
   		SELECT 
   			count(*) 
   		from 
-  			member 
+  			mem 
   		where 
   			email = #{email};
   	</select>
   	
   	<select id="logindo" parameterType="Map" resultType="Member">
-  		Select
+  		select
   			*
   		from
-  			member
+  			mem
   		where
-  			email = #{email} AND pwd = password(#{pwd});
+  			email = #{email} AND pwd = sha(#{pwd});
   	</select>
   	
+  	
+  	<!-- <select id="getbyno" parameterType="int" resultType="Member">
+  		select 
+  			*
+  		from
+  			mem
+  		where
+  			meno = #{no};
+  	</select> -->
   </mapper>

@@ -15,13 +15,16 @@
 		<%-- js --%>
 		<script src="/vendor/jquery/jquery.min.js"></script>
 		<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div class="container" style="background-color: #F2F4F7;">
 <h1>회원가입 화면입돠.</h1>
 <div class="row">
-	<div class="main col-lg-7" style="margin: 0 auto;">
+	<div class="main col-lg-7" style="background-color: aqua; margin: 0 auto;">
 					<div class="main-center">
 					<!-- <form action="join.do" method="post" class="joinstart"> -->
 						<div>
@@ -67,7 +70,7 @@
 										oninput="repwcheck()" placeholder="입력하신 비밀번호 다시 한번 ㄱㄱ"
 										maxlength="20" /></span>
 						</div>
-						<div>
+						<!-- <div>
 							<label class="info">기본주소</label>
 							<span class=" col-lg-11 mr-auto"><input type="text"
 										class="form-control" name="basaddr" id="userbasaddr"
@@ -80,6 +83,12 @@
 										class="form-control" name="detaddr" id="userdetaddr"
 										placeholder="상세주소 입력"
 										maxlength="20" /></span>
+						</div> -->
+						<div>
+							<input type="text" id="postcode" placeholder="우편번호">
+							<input type="button" onclick="searchPostcode()" value="우편번호 찾기"><br>
+							<input type="text" id="userbasaddr" readonly="readonly" placeholder="주소"><br>
+							<input type="text" id="userdetaddr" placeholder="상세주소">
 						</div>
 						<div>
 						
@@ -93,6 +102,61 @@
 		</div>
 </body>
 <script type="text/javascript">
+function searchPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                // 조합된 참고항목을 해당 필드에 넣는다.
+                //document.getElementById("sample6_extraAddress").value = extraAddr;
+            
+            } else {
+                //document.getElementById("sample6_extraAddress").value = '';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('postcode').value = data.zonecode;
+            document.getElementById("userbasaddr").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("userdetaddr").focus();
+        }
+    }).open();
+}
+
+/* new daum.Postcode({
+    oncomplete: function(data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+    }
+}).open(); */
+
 var nameCheck = 0; // 유효성검사
 //var pwdCheck = 0; // 패스워드 , 비밀번호가 문자 특수문자 숫자 들어가있는지 체크
 var repwCheck = 0; //  패스워드확인 값이 같은지 체크용
@@ -145,7 +209,6 @@ function emacheck(){
     var emava = $("#useremail").val();
     var compema = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	var y = compema.test(emava);
-	
 	$.ajax({
 	    type : "POST",
 	    data : {
