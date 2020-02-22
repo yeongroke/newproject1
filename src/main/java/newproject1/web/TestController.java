@@ -1,5 +1,6 @@
 package newproject1.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,10 +75,10 @@ public class TestController {
     model.addAttribute("paging",paging);
   }
   
-  @RequestMapping("board.do")
+  @RequestMapping(value="board.do", method = {RequestMethod.POST})
   public @ResponseBody List<Board> boarddo(
   		@RequestParam(required = false , defaultValue = "10") int pageSize,
-  		int pageNo , int meno){
+  		int pageNo , int meno , Model model){
 
   	Paging paging = new Paging();
   	paging.setPageNo(pageNo);
@@ -86,11 +87,13 @@ public class TestController {
   	
   	
     List<Board> boardlist = boardService.list(pageNo , pageSize , meno);
+    System.out.println(boardlist);
+    model.addAttribute("boardlist", boardlist);
     
     Map<String, Object> map = new HashMap<>();
-    
     map.put("boardlist", boardlist);
     map.put("paging", paging);
+
     
     return boardlist;
   }

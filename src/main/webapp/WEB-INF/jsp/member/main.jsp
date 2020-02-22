@@ -38,9 +38,7 @@
 
 <script>
 function logout(){
-	<%
-	//session.invalidate();
-	%>
+	
 	location.href = "./main";
 }
 </script>

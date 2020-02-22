@@ -92,14 +92,14 @@ function goPage(pageno,meno){
 	console.log(pageno);
 	console.log(meno);
 	$.ajax({
-		type : "GET",
+		type : "POST",
 		data : {
 			"pageNo" : pageno ,
 			"meno" : meno
 		},url : "board.do",
 		success : function(data){
 			console.log(data);
-			$(".boardtable").empty();
+			/* $(".boardtable").empty();
 			$.each(data.boardlist,function(index,item){
 				$(".boardtable").append(
 					'<tr>'+
@@ -113,7 +113,7 @@ function goPage(pageno,meno){
 					'<td>'+item.rgdt+'</td>'+
 					'</tr>'
 				);
-			});
+			}); */
 			
 		}
 	});
